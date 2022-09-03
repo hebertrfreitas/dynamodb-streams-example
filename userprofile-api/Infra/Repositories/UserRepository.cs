@@ -21,7 +21,6 @@ public class UserRepository : IUserRepository
             Id = Guid.NewGuid().ToString(),
             UserName = createUserRequest.username,
             Email = createUserRequest.email
-
         };
         
         

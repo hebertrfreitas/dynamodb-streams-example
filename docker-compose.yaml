@@ -7,6 +7,11 @@ services:
       - "4566:4566"
       - "4571:4571"
     environment:
-      - SERVICES=dynamodb
+      - SERVICES=dynamodb,lambda
+      # - AWS_TABLE_NAME=Users
+      # - AWS_REGION=us-east-1
+      # - AWS_ACCOUNT_ID=000000000000
+      # - AWS_LAMBDA_NAME=UsersLambda
     volumes: 
-        - ./docker/dynamodb-entrypoint.sh:/docker-entrypoint-initaws.d/dynamodb-entrypoint.sh  
+        - ./docker/policies/:/tmp/docker-files/policies/
+        - ./docker/localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh  
