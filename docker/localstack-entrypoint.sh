@@ -22,3 +22,30 @@ echo "role policy configurada"
 echo "Criando fila SQS"
 awslocal sqs create-queue --queue-name users-queue
 echo "fila sqs criada"
+
+
+echo "Criando lambda"
+
+## 1 - grep "Arn" filtra somente a linha com "Arn", 
+### resultado após comando 
+### "Arn": "arn:aws:iam::000000000000:role/service-role/LambdaRole",
+
+## 2 - cut -d':' -f2- corta fazendo split por : e pega a segunda ocorrência até o final
+### resultado após o comando
+###  "arn:aws:iam::000000000000:role/service-role/LambdaRole",
+
+## 3 - sed 's|[",]||g' substitui todas as ocorrências de " e , por vazio
+### resultado após o comando
+### arn:aws:iam::000000000000:role/service-role/LambdaRole
+LAMBDA_ARN = $(awslocal iam get-role --role-name LambdaRole | grep "Arn" | cut -d':' -f2- | sed 's|[",]||g')
+
+aws lambda create-function \
+    --region sa-east-1 \
+    --function-name UsersLambda \
+    --zip-file fileb:///tmp/docker-files/users-lambda.zip \
+    --role $LAMBDA_ARN \
+    --handler UsersLambda.handler \
+    --timeout 5 \
+    --runtime python
+
+echo "lambda criada"
