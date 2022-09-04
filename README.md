@@ -15,8 +15,23 @@ Projeto para exemplificar o uso do [dynamodb streams](https://docs.aws.amazon.co
 ### Referências
 
 https://engineering.zalando.com/posts/2022/02/transactional-outbox-with-aws-lambda-and-dynamodb.html
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.Tutorial.html#Streams.Lambda.Tutorial.LambdaFunction
 
 
+
+## Como executar
+
+O projeto possui um `makefile` configurado, utilize os seguintes comandos:
+
+Para subir toda a infraestrutura via docker
+```sh
+make up
+```
+
+Para finalizar o docker e remover a infra
+```sh
+make down
+```
 
 ## instruções para a lambda
 

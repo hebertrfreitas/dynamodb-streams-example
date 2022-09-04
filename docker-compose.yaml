@@ -14,4 +14,5 @@ services:
       # - AWS_LAMBDA_NAME=UsersLambda
     volumes: 
         - ./docker/policies/:/tmp/docker-files/policies/
+        - ./docker/lambda/:/tmp/docker-files/lambda/
         - ./docker/localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh  

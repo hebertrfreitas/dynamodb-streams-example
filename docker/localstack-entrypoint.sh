@@ -37,15 +37,30 @@ echo "Criando lambda"
 ## 3 - sed 's|[",]||g' substitui todas as ocorrências de " e , por vazio
 ### resultado após o comando
 ### arn:aws:iam::000000000000:role/service-role/LambdaRole
-LAMBDA_ARN = $(awslocal iam get-role --role-name LambdaRole | grep "Arn" | cut -d':' -f2- | sed 's|[",]||g')
+LAMBDA_ARN=$(awslocal iam get-role --role-name LambdaRole | grep "Arn" | cut -d':' -f2- | sed 's|[",]||g')
 
-aws lambda create-function \
-    --region sa-east-1 \
-    --function-name UsersLambda \
-    --zip-file fileb:///tmp/docker-files/users-lambda.zip \
+awslocal lambda create-function \
+    --region us-east-1 \
+    --function-name users_lambda \
+    --zip-file fileb:///tmp/docker-files/lambda/users-lambda.zip \
     --role $LAMBDA_ARN \
-    --handler UsersLambda.handler \
+    --handler users_lambda.handler \
     --timeout 5 \
     --runtime python
 
 echo "lambda criada"
+
+
+echo "Criando trigger para a lambda usando o dynamodb stream"
+
+STREAM_ARN=$(awslocal dynamodb describe-table --table-name Users | grep "LatestStreamArn"  | grep "Arn" | cut -d':' -f2- | sed 's|[",]||g')
+
+awslocal lambda create-event-source-mapping \
+    --region us-east-1 \
+    --function-name users_lambda \
+    --event-source $STREAM_ARN \
+    --batch-size 1 \
+    --starting-position TRIM_HORIZON
+
+
+echo "Trigger criada"
