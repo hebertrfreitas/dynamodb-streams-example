@@ -28,10 +28,35 @@ Para subir toda a infraestrutura via docker
 make up
 ```
 
+Em seguida, suba a api em dotnet
+
+```sh
+dotnet run --project userprofile-api/Api
+```
+
+a api disponibiliza um endpoint para cadastrar um novo usuário, que pode ser invocado da seguinte maneira
+
+```sh
+curl -X 'POST' \
+  'https://localhost:7242/api/User' \
+  -H 'accept: text/plain' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "test-username",
+  "email": "test@test.com"
+}'
+```
+se você preferir a api também está com o swagger ui então a requisição poderá ser feita pela interface web no endereço `https://localhost:7242/swagger/index.html`
+
+Ao realizar a requisição a api irá inserir o valor na tabela `Users` no dynamo. Esta tabela possui dynamodb-streams ativado e está realizando o trigger de uma lambda. A lamba por sua vez irá imprimir no console o evento que acabou de ser inserido no dynamo.
+
 Para finalizar o docker e remover a infra
 ```sh
 make down
 ```
+
+
+
 
 ## instruções para a lambda
 
