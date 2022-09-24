@@ -4,7 +4,7 @@ LAMBDA_FILE := lambda/users_lambda.py
 .PHONY: up down lambda-zip
 
 ## Up the docker compose
-up: lambda-zip
+up: lambda-setup lambda-zip
 	docker-compose up
 
 ## Shut down the service and any associated volume

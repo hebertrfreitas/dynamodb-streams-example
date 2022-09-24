@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace Domain.Model;
 
-[DynamoDBTable("User")]
+[DynamoDBTable("Users")]
 public class User
 {
     [DynamoDBHashKey]

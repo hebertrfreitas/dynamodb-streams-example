@@ -48,7 +48,7 @@ awslocal lambda create-function \
     --timeout 5 \
     --runtime python
 
-echo "lambda criada"
+# echo "lambda criada"
 
 
 echo "Criando trigger para a lambda usando o dynamodb stream"

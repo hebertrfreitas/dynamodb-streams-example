@@ -40,3 +40,6 @@ msbuild.wrn
 #python
 
 .venv/
+
+#lambda zip
+users-lambda.zip
